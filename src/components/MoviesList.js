@@ -6,12 +6,12 @@ import classes from './MoviesList.module.css'
 const MovieList = ({ movies }) => {
   return (
     <ul className={classes['movies-list']}>
-      {movies.map((movie, id) => (
+      {movies.map((movie) => (
         <Movie
-          key={id}
+          key={movie.episode_id}
           title={movie.title}
-          releaseDate={movie.release}
-          openingText={movie.openingText}
+          releaseDate={movie.release_date}
+          openingText={movie.opening_crawl}
         />
       ))}
     </ul>

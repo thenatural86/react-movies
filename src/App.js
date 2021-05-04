@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import MoviesList from './components/MoviesList'
 import './App.css'
@@ -14,21 +14,21 @@ function App() {
       })
   }
 
-  useEffect(() => {
-    fetchMoviesHandler()
-  }, [])
+  // useEffect(() => {
+  //   fetchMoviesHandler()
+  // }, [])
 
   console.log(movies)
 
   return (
-    <React.Fragment>
+    <>
       <section>
-        <button>Fetch Movies</button>
+        <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
         <MoviesList movies={movies} />
       </section>
-    </React.Fragment>
+    </>
   )
 }
 
