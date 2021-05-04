@@ -14,12 +14,6 @@ function App() {
       })
   }
 
-  // useEffect(() => {
-  //   fetchMoviesHandler()
-  // }, [])
-
-  console.log(movies)
-
   return (
     <>
       <section>
