@@ -12,11 +12,13 @@ function App() {
   const fetchMoviesHandler = useCallback(() => {
     setIsLoading(true)
     setError(null)
-    fetch('https://swapi.dev/api/films')
+    // fetch('https://swapi.dev/api/films')
+    fetch('https://react-movies-97451-default-rtdb.firebaseio.com/movies.json')
       .then((response) => response.json())
       .then((data) => {
-        setMovies(data.results)
-        setIsLoading(false)
+        console.log(data)
+        // setMovies(data.results)
+        // setIsLoading(false)
       })
   }, [])
 
