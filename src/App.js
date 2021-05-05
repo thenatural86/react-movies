@@ -9,57 +9,70 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const fetchMoviesHandler = useCallback(() => {
+  const fetchMoviesHandler = useCallback(async () => {
     setIsLoading(true)
     setError(null)
-    // fetch('https://swapi.dev/api/films')
-    fetch('https://react-movies-97451-default-rtdb.firebaseio.com/movies.json')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data)
-        // setMovies(data.results)
-        // setIsLoading(false)
-      })
+    try {
+      // const response = await fetch('https://swapi.dev/api/films/');
+      const response = await fetch(
+        'https://react-movies-97451-default-rtdb.firebaseio.com/movies.json'
+      )
+      if (!response.ok) {
+        throw new Error('Something went wrong!')
+      }
+      const data = await response.json()
+      console.log(data)
+
+      const loadedMovies = []
+
+      for (const key in data) {
+        loadedMovies.push({
+          id: key,
+          title: data[key].title,
+          openingText: data[key].openingText,
+          releaseDate: data[key].releaseDate,
+        })
+      }
+
+      setMovies(loadedMovies)
+    } catch (error) {
+      setError(error.message)
+    }
+    setIsLoading(false)
   }, [])
 
   useEffect(() => {
     fetchMoviesHandler()
   }, [fetchMoviesHandler])
 
-  const addMovieHandler = () => {
-    console.log('yolo')
+  const addMovieHandler = async (movie) => {
+    // console.log('yolo')
+    const response = await fetch(
+      'https://react-movies-97451-default-rtdb.firebaseio.com/movies.json',
+      {
+        method: 'POST',
+        body: JSON.stringify(movie),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    const data = await response.json()
+    console.log(data)
   }
 
-  // const fetchMoviesHandler = async () => {
-  //   setIsLoading(true)
-  //   setError(null)
-  //   try {
-  //     const response = await fetch('https://swapi.dev/api/films')
-
-  //     if (!response.ok) {
-  //       throw new Error('Opps, Something went wrong!')
-  //     }
-  //     const data = await response.json()
-
-  //     setMovies(data.results)
-  //     setIsLoading(false)
-  //   } catch (error) {
-  //     setError(error.message)
-  //     setIsLoading(false)
-  //   }
-  // }
-  let content = <p>No movies</p>
+  let content = <p>Found no movies.</p>
 
   if (movies.length > 0) {
     content = <MoviesList movies={movies} />
   }
 
-  if (isLoading) {
-    content = <h3>Loading...</h3>
-  }
-
   if (error) {
     content = <p>{error}</p>
+  }
+
+  if (isLoading) {
+    content = <p>Loading...</p>
   }
 
   return (
@@ -76,3 +89,16 @@ function App() {
 }
 
 export default App
+
+// const fetchMoviesHandler = useCallback(() => {
+//   setIsLoading(true)
+//   setError(null)
+//   // fetch('https://swapi.dev/api/films')
+//   fetch('https://react-movies-97451-default-rtdb.firebaseio.com/movies.json')
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.log(data)
+//       // setMovies(data.results)
+//       // setIsLoading(false)
+//     })
+// }, [])
