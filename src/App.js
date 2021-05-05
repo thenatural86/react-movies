@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 
 import MoviesList from './components/MoviesList'
+import AddMovie from './components/AddMovie'
 import './App.css'
 
 function App() {
@@ -22,6 +23,10 @@ function App() {
   useEffect(() => {
     fetchMoviesHandler()
   }, [fetchMoviesHandler])
+
+  const addMovieHandler = () => {
+    console.log('yolo')
+  }
 
   // const fetchMoviesHandler = async () => {
   //   setIsLoading(true)
@@ -57,6 +62,9 @@ function App() {
 
   return (
     <>
+      <section>
+        <AddMovie onAddMovie={addMovieHandler} />
+      </section>
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
